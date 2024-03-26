@@ -11,7 +11,7 @@ import BisunessDomain from './pages/BisunessDomain.jsx';
 import Form from './components/Bisuness-DomainEntity/Form.jsx';
 import UpdateBusiness from './pages/UpdateBusiness.jsx';
 import Login from './pages/Login.jsx';
-import Signup from './pages/Register.jsx';
+import Signup from './pages/Signup.jsx';
 import DatabaseService from './pages/DatabaseService.jsx';
 import Home from './pages/Home.jsx';
 import ViewTables from './pages/ViewTables.jsx';

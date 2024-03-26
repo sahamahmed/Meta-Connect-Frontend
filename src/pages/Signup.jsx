@@ -48,13 +48,10 @@ const Signup = () => {
         }
 
         const data = {
-          userId: {
             username: username,
-            email: email,
-          },
+          
           password: password,
-          firstName: firstName,
-          lastName: lastName,
+          
         };
 
         axios
@@ -77,9 +74,18 @@ const Signup = () => {
 
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 my-4">
+    <div
+      className="max-w-lg  bg-transparent shadow-md rounded px-8 pt-6 pb-8 my-4 w-full"
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.3)", // Transparent white background
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)", // Visible shadow
+      }}
+    >
       <form onSubmit={handleSubmit}>
-        {error && <h1 className="text-red-600">{error}</h1>}
+        <h1 className="text-teal-400 text-center text-3xl font-bold uppercase">
+          Register
+        </h1>
+        {error && <h1 className="text-red-600 text-center">{error}</h1>}
         <div className="mb-4">
           <label
             htmlFor="firstName"
@@ -93,6 +99,10 @@ const Signup = () => {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+            }}
           />
         </div>
         <div className="mb-4">
@@ -108,6 +118,10 @@ const Signup = () => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+            }}
           />
         </div>
         <div className="mb-4">
@@ -123,6 +137,10 @@ const Signup = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+            }}
           />
         </div>
         <div className="mb-4">
@@ -138,6 +156,10 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+            }}
           />
         </div>
         <div className="mb-6">
@@ -153,12 +175,16 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+            }}
           />
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-teal-400 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
           >
             Sign Up
           </button>

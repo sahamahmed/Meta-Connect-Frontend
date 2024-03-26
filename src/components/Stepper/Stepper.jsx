@@ -55,17 +55,24 @@ const Stepper = ({ initialData }) => {
                 });
         
       } else {
-        
-        axios.post("http://localhost:8080/api/meta-connect/db-config", data)
-            .then((response) => {
-                  console.log("Response:", response.data);
-                  alert("Form submitted successfully!");
-                  navigate("/")
-                })
-            .catch((error) => {
-                  console.error("Error submitting form:", error);
-                  alert("Error submitting form. Please try again later.");
-                });
+        const token = localStorage.getItem("token");
+        const formattedToken = `Bearer ${token}`;
+        axios
+          .post("http://localhost:8080/api/meta-connect/db-config", data, {
+            headers: {
+              Authorization: formattedToken, // Include formatted token in the Authorization header
+            },
+          })
+          .then((response) => {
+            console.log("Response:", response.data);
+            alert("Form submitted successfully!");
+            navigate("/database-service");
+          })
+          .catch((error) => {
+            console.error("Error submitting form:", error);
+            alert("Error submitting form. Please try again later.");
+          });
+
       }
     } else {
       setCurrentStep((prevStep) => prevStep + 1);

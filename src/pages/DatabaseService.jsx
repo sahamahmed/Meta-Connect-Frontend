@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AlertDialogSlide from "../components/Modals";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 import { addpost } from "../store/postSlice";
-
 
 const DatabaseService = () => {
   const [posts, setPosts] = useState([]);
@@ -15,15 +14,25 @@ const DatabaseService = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const formattedToken = `Bearer ${token}`;    
+
     axios
-      .get("http://localhost:8080/api/meta-connect/db-configs")
+      .get("http://localhost:8080/api/meta-connect/db-configs", {
+        headers: {
+          Authorization: formattedToken, // Include formatted token in the Authorization header
+        },
+      })
       .then((response) => {
-        setPosts(response.data.content);
+        console.log(response.data);
+        setPosts(response.data.content)
       })
       .catch((error) => {
-        setError(error.message || "An error occurred while fetching data.");
+        console.error(
+          error.message || "An error occurred while fetching data."
+        );
       });
-  }, [posts]);
+  }, []);
 
   useEffect(() => {
     if (posts) {
@@ -52,8 +61,7 @@ const DatabaseService = () => {
         .catch((error) => {
           setError(error.message || "An error occurred while extracting data.");
         });
-        setRefreshed((prevState) => ({ ...prevState, [Id]: true }));
-
+      setRefreshed((prevState) => ({ ...prevState, [Id]: true }));
     } catch (error) {
       setError(error.message || "An error occurred");
     }
@@ -68,7 +76,7 @@ const DatabaseService = () => {
       {error ? (
         <p className="text-red-600">{error}</p>
       ) : (
-        <div className="bg-gray-300 shadow-md  p-4 rounded-md ">
+        <div className="bg-transparent p-4 rounded-md ">
           <div className="grid grid-cols-4 mb-4">
             <h2 className="text-lg font-semibold ml-2">Schema Name</h2>
             <h2 className="text-lg font-semibold ml-2">Type</h2>
@@ -82,7 +90,7 @@ const DatabaseService = () => {
           {posts?.map((post) => (
             <div
               key={post.id}
-              className="bg-white shadow-md rounded-md p-4 border-b-2 grid grid-cols-4 items-center"
+              className="bg-teal-400 shadow-md rounded-md p-4 border-2  grid grid-cols-4 items-center"
               style={{ gap: "1rem" }}
             >
               <div className="col-span-1 flex justify-start">
@@ -97,7 +105,7 @@ const DatabaseService = () => {
               <div className="col-span-1 flex justify-end items-center gap-x-4">
                 <button
                   className="bg-sky-500 text-white px-4 py-2 rounded-md"
-                  onClick={() => handleLoad(post.id)}
+                  // onClick={() => handleLoad(post.id)}
                 >
                   {refreshed[post.id] ? "Refresh" : "Load"}
                 </button>

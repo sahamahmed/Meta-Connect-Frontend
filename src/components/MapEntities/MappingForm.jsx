@@ -1,13 +1,30 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState , useEffect} from "react";
 import axios from 'axios'
+import { TokenFunction } from "../../utils/BearerToken";
 
-const FormPopup = ({ onClose, column }) => {
-  const [selectedEntities, setSelectedEntities] = useState([]); // State for selected entities
-
-  const businessEntities = useSelector((state) => state.business.businessData);
+const FormPopup = ({ onClose, column , setRerun}) => {
+  const [selectedEntities, setSelectedEntities] = useState([]); 
+  const [businessEntities, setBusinessEntities] = useState([]);
+  const formattedToken = TokenFunction();
+    useEffect(() => {
+      axios
+        .get(
+          "http://localhost:8080/api/meta-connect/business-domain-entities",
+          {
+            headers: {
+              Authorization: formattedToken,
+            },
+          }
+        )
+        .then((response) => {
+          setBusinessEntities(response.data.content);
+        })
+        .catch((error) => {
+          console.log(error.message || "An error occurred while fetching data.");
+        });
+    }, [ formattedToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,15 +39,18 @@ const FormPopup = ({ onClose, column }) => {
     const validSelectedEntityIds = selectedEntityIds.filter(
       (id) => id !== null
     );
-
-
      try {
     const response = await axios.post(
       `http://localhost:8080/api/meta-connect/${column.id}/catalog-mapping-column`,
-        validSelectedEntityIds
-
+      validSelectedEntityIds,
+      {
+        headers: {
+          Authorization: formattedToken,
+        },
+      }
     );
 
+    setRerun(prev => !prev)
     console.log("Mapping column response:", response.data);
   } catch (error) {
     console.error("Error mapping column:", error);

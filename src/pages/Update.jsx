@@ -11,7 +11,7 @@ const UpdatePost = () => {
 
   return (
     <div>
-      <h1 className='text-2xl text-center my-4'>Update Post</h1>
+      <h1 className='text-2xl text-center my-4 text-gray-900'>Update Post</h1>
       {postData && <Stepper initialData={initialData} />}
     </div>
   );

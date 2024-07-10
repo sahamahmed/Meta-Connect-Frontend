@@ -9,7 +9,7 @@ const UpdateBusiness = () => {
  initialData = initialData[0]
   return (
     <div>
-        <h1 className="text-2xl text-center my-4">Update form</h1>
+        <h1 className="text-2xl text-center my-4 text-gray-800 ">Update form</h1>
         <Form initialData={initialData} />
     </div>
   )

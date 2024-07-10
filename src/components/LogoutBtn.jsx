@@ -7,6 +7,7 @@ function LogoutBtn({ className = "" }) {
 
   const logoutHandler = () => {
         dispatch(logout()); //state mein update krne kliye
+        localStorage.removeItem("token")
         navigate('/')
   };
   return (

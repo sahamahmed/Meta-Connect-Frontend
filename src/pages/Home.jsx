@@ -16,20 +16,21 @@ const Home = () => {
         backgroundImage: `url(/background2.jpg)`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        width: "100vw",
+        maxWidth: "100vw",
         minHeight: "100vh",
       }}
     >
       <div className="flex flex-col w-[80%] max-w-7xl px-8 h-full py-8  justify-center items-start ml-8">
         <div className="flex flex-col justify-start items-start">
-          <h1 className="text-gray-500 text-5xl font-bold text-center">
+          <h1 className="text-neutral-600 text-5xl font-bold text-center">
             META CONNECT
           </h1>
           <TypeEffect />
         </div>
-        {showLogin ? <Login /> : <Signup />}
+        {showLogin ? <Login /> : <Signup toggleForm={toggleForm} />}
         <h1 className="text-teal-600 text-2xl font-normal">
-          {showLogin ? "New User? Register" : "Already have an account? Login"}{""}
+          {showLogin ? "New User? Register" : "Already have an account? Login"}
+          {""}
           <button
             onClick={toggleForm}
             className=" outline-none focus:outline-none hover:bg-#DEE8F1 hover:underline px-2 py-1 rounded-md"
@@ -39,7 +40,7 @@ const Home = () => {
         </h1>
       </div>
     </div>
-  )
+  );
 };
 
 export default Home;

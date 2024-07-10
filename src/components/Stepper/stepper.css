@@ -14,9 +14,11 @@
   @apply bg-green-600;
 }
 .complete p {
-  @apply text-white;
+  @apply text-green-700;
 }
 .complete:not(:first-child):before,
 .active:not(:first-child):before {
   @apply bg-green-600;
 }
+
+

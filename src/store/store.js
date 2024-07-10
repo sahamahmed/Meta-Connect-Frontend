@@ -10,7 +10,6 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-// Import your reducers
 import authSlice from "./authSlice";
 import postSlice from "./postSlice";
 import businessSlice from "./businessSlice";
@@ -18,7 +17,6 @@ import businessSlice from "./businessSlice";
 const persistConfig = {
   key: "root",
   storage,
-  // Other options
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice);

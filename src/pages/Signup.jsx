@@ -1,20 +1,22 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
-const Signup = () => {
+import CustomizedSnackbars from "../components/Notifications";
+
+const Signup = ({ toggleForm }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error , setError] = useState('')
-  const navigate = useNavigate()
+  const [registered, setRegistered] = useState(null)
+  const [notregistered, setnotRegistered] = useState(false)
+  const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     setError("");
     event.preventDefault();
 
-    // Check if any required field is empty
     if (
       username.trim() === "" ||
       password.trim() === "" ||
@@ -25,53 +27,23 @@ const Signup = () => {
       setError("All fields are required");
       return;
     }
-
     axios
-      .get("http://localhost:8080/api/meta-connect/users")
+      .post("http://localhost:8080/api/meta-connect/registration", {
+        userName: username,
+        password: password,
+      })
       .then((response) => {
-        const userList = response.data.content;
-
-        const usernameExists = userList.some(
-          (user) => user.userId.username === username
-        );
-        const emailExists = userList.some(
-          (user) => user.userId.email === email
-        );
-
-        if (usernameExists) {
-          setError("Username is already registered");
-          return;
-        }
-        if (emailExists) {
-            setError("Email address is already registered");
-            return;
-        }
-
-        const data = {
-            username: username,
-          
-          password: password,
-          
-        };
-
-        axios
-          .post("http://localhost:8080/api/meta-connect/registration", data)
-          .then((response) => {
-            console.log("Response:", response.data);
-            alert("Signup successful!");
-            navigate("/login");
-          })
-          .catch((error) => {
-            console.error("Error submitting form:", error);
-            alert("Error submitting form. Please try again later.");
-          });
+        console.log("Response:", response.data);
+        setRegistered(true)
+        setTimeout(()=>{
+                  toggleForm();
+        }, 2000)
       })
       .catch((error) => {
-        console.error("Error fetching user list:", error);
-        alert("Error fetching user list. Please try again later.");
+        console.log(error)
+        setnotRegistered(true)
       });
   };
-
 
   return (
     <div
@@ -81,49 +53,65 @@ const Signup = () => {
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)", // Visible shadow
       }}
     >
+      {notregistered && (
+        <CustomizedSnackbars
+          message={`Failed, please try again`}
+          type={"error"}
+        />
+      )}
+      {registered && (
+        <CustomizedSnackbars
+          message={`User registered, Kindly Login`}
+          type={"success"}
+        />
+      )}
       <form onSubmit={handleSubmit}>
         <h1 className="text-teal-400 text-center text-3xl font-bold uppercase">
           Register
         </h1>
         {error && <h1 className="text-red-600 text-center">{error}</h1>}
-        <div className="mb-4">
-          <label
-            htmlFor="firstName"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            First Name:
-          </label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
-              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
-            }}
-          />
+
+        <div className=" flex flex-row justify-between items-center">
+          <div className="mb-4">
+            <label
+              htmlFor="firstName"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              First Name:
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+              }}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="lastName"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Last Name:
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
+              }}
+            />
+          </div>
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="lastName"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Last Name:
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.5)", // Transparent white background
-              boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)", // Visible shadow
-            }}
-          />
-        </div>
+
         <div className="mb-4">
           <label
             htmlFor="username"

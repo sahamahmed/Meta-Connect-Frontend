@@ -4,11 +4,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {useDispatch }from 'react-redux'
 import { login } from "../store/authSlice";
+import CustomizedSnackbars from "../components/Notifications";
 
 const Login = () => {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [error, setError] = useState("");
+  const [showSnackbar, setShowSnackbar] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
@@ -28,12 +30,10 @@ const Login = () => {
           )
           .then((response) => {
             console.log("Response:", response.data);
-
             if (response.data) {
               localStorage.setItem("token", response.data);
               dispatch(login());
-              alert("Login successfull!");
-              navigate("/database-service");
+              navigate("/database-service",  { state: { fromLogin: true } });
             } else {
               setError("Check your credentials again");
               return;
@@ -41,7 +41,7 @@ const Login = () => {
           })
           .catch((error) => {
             console.error("Error submitting form:", error);
-            alert("Error submitting form. Please try again later.");
+setShowSnackbar(true)
           });
   }
 
@@ -80,7 +80,6 @@ const Login = () => {
           />
         </div>
 
-
         <div className="mb-6">
           <label
             htmlFor="password"
@@ -110,6 +109,9 @@ const Login = () => {
           </button>
         </div>
       </form>
+      {showSnackbar && (
+        <CustomizedSnackbars message={`Incorrect credentials`} type={"error"} />
+      )}
     </>
   );
 }

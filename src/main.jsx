@@ -10,8 +10,6 @@ import {store , persistor} from "./store/store.js";
 import BisunessDomain from './pages/BisunessDomain.jsx';
 import Form from './components/Bisuness-DomainEntity/Form.jsx';
 import UpdateBusiness from './pages/UpdateBusiness.jsx';
-import Login from './pages/Login.jsx';
-import Signup from './pages/Signup.jsx';
 import DatabaseService from './pages/DatabaseService.jsx';
 import Home from './pages/Home.jsx';
 import ViewTables from './pages/ViewTables.jsx';
@@ -40,15 +38,6 @@ const router = createBrowserRouter([
         element: <DatabaseService />,
       },
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Signup />,
-      },
-
-      {
         path: "/post",
         element: <Stepper />,
       },
@@ -57,15 +46,15 @@ const router = createBrowserRouter([
         element: <UpdatePost />,
       },
       {
-        path: "/bisuness-domain",
+        path: "/business-glossary",
         element: <BisunessDomain />,
       },
       {
-        path: "/bisuness-domain/post",
+        path: "/business-glossary/post",
         element: <Form />,
       },
       {
-        path: "/bisuness-domain/update-post/:id",
+        path: "/business-glossary/update/:id",
         element: <UpdateBusiness />,
       },
     ],
